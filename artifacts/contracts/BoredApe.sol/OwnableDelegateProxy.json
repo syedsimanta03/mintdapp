@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "OwnableDelegateProxy",
+  "sourceName": "contracts/BoredApe.sol",
+  "abi": [],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212201ebf42c9fa108befe936f5dbbbd5c2de91470aa8826fcf2b4d4a261e0a3036a264736f6c63430008090033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212201ebf42c9fa108befe936f5dbbbd5c2de91470aa8826fcf2b4d4a261e0a3036a264736f6c63430008090033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

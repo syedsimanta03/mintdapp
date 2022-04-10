@@ -110,8 +110,10 @@ export default function Home() {
 
           <div className="flex flex-col md:flex-row md:space-x-16 space-y-10 items-center mt-20 w-full">
             {/* BoredApe Image */}
-            <img
+            <Image
               src="/images/9.png" alt='nine'
+              width={500}
+              height={500}
               className="w-64 h-64 rounded-md object-cover"
             />
 
