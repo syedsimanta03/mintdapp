@@ -4,7 +4,7 @@ const RPC_URL = process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL
 const config = {
   title: 'BoredApe Dapp',
   description: 'A showcase dapp which is built for you to create your own',
-  contractAddress: '0x0312e42e4b55823a3C41769DC0B07F382dECc247',
+  contractAddress: '0xc904d4fA240d2f13D05642D850D8803642DDEB8e',
   maxMintAmount: 10,
   presaleMaxMintAmount: 3,
   price: 0.01
