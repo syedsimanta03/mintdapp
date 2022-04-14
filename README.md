@@ -15,6 +15,8 @@ npx hardhat help
 
 npx hardhat run scripts/deployContract.js --network rinkeby
 npx hardhat run scripts/verifyContract.js --network rinkeby
+Successfully verified contract BoredApe on Etherscan.
+https://rinkeby.etherscan.io/address/0x923130181b7F075cBebFc9743D6e923646FD9148#code
 npx hardhat verify --network rinkeby 0xc904d4fA240d2f13D05642D850D8803642DDEB8e
 ```
 

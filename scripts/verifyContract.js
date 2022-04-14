@@ -1,4 +1,4 @@
-import('@nomiclabs/hardhat-etherscan')
+require('@nomiclabs/hardhat-etherscan')
 const hre = require('hardhat')
 const { MerkleTree } = require('merkletreejs')
 const keccak256 = require('keccak256')
@@ -15,7 +15,7 @@ async function main() {
   const root = merkleTree.getRoot()
 
   await hre.run('verify:verify', {
-    address: '0xc904d4fA240d2f13D05642D850D8803642DDEB8e', // Deployed contract address
+    address: '0x923130181b7F075cBebFc9743D6e923646FD9148', // Deployed contract address
     constructorArguments: [BASE_URI, root, proxyRegistryAddressRinkeby]
   })
 }

@@ -1,20 +1,48 @@
-import { config } from '../dapp.config'
-import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { initOnboard } from './../utils/onboard'
+import { initOnboard } from '../utils/onboard'
+import { config } from '../dapp.config'
+import {
+  getTotalMinted,
+  getMaxSupply,
+  isPausedState,
+  isPublicSaleState,
+  isPreSaleState,
+  presaleMint,
+  publicMint
+} from '../utils/interact'
 
-const walletAddress = true
-const paused = false
-const isPreSale = false
-const isMinting = true
-const status = true
+export default function Mint() {
+  const [maxSupply, setMaxSupply] = useState(0)
+  const [totalMinted, setTotalMinted] = useState(0)
+  const [maxMintAmount, setMaxMintAmount] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const [isPublicSale, setIsPublicSale] = useState(false)
+  const [isPreSale, setIsPreSale] = useState(false)
 
-const mint = () => {
-  //eslint-disable-next-line
+  const [status, setStatus] = useState(null)
+  const [mintAmount, setMintAmount] = useState(1)
+  const [isMinting, setIsMinting] = useState(false)
   const [onboard, setOnboard] = useState(null)
-  //eslint-disable-next-line
   const [walletAddress, setWalletAddress] = useState('')
-  //eslint-disable-next-line
+
+  useEffect(() => {
+    const init = async () => {
+      setMaxSupply(await getMaxSupply())
+      setTotalMinted(await getTotalMinted())
+
+      setPaused(await isPausedState())
+      setIsPublicSale(await isPublicSaleState())
+      const isPreSale = await isPreSaleState()
+      setIsPreSale(isPreSale)
+
+      setMaxMintAmount(
+        isPreSale ? config.presaleMaxMintAmount : config.maxMintAmount
+      )
+    }
+
+    init()
+  }, [])
+
   useEffect(() => {
     const onboardData = initOnboard({
       address: (address) => setWalletAddress(address ? address : ''),
@@ -26,6 +54,7 @@ const mint = () => {
         }
       }
     })
+
     setOnboard(onboardData)
   }, [])
 
@@ -33,7 +62,6 @@ const mint = () => {
     typeof window !== 'undefined' &&
     window.localStorage.getItem('selectedWallet')
 
-  //eslint-disable-next-line
   useEffect(() => {
     if (previouslySelectedWallet !== null && onboard) {
       onboard.walletSelect(previouslySelectedWallet)
@@ -48,13 +76,48 @@ const mint = () => {
     }
   }
 
+  const incrementMintAmount = () => {
+    if (mintAmount < maxMintAmount) {
+      setMintAmount(mintAmount + 1)
+    }
+  }
+
+  const decrementMintAmount = () => {
+    if (mintAmount > 1) {
+      setMintAmount(mintAmount - 1)
+    }
+  }
+
+  const presaleMintHandler = async () => {
+    setIsMinting(true)
+
+    const { success, status } = await presaleMint(mintAmount)
+
+    setStatus({
+      success,
+      message: status
+    })
+
+    setIsMinting(false)
+  }
+  const publicMintHandler = async () => {
+    setIsMinting(true)
+
+    const { success, status } = await publicMint(mintAmount)
+
+    setStatus({
+      success,
+      message: status
+    })
+
+    setIsMinting(false)
+  }
+
   return (
     <div className="min-h-screen h-full w-full overflow-hidden flex flex-col items-center justify-center bg-brand-background ">
       <div className="relative w-full h-full flex flex-col items-center justify-center">
-        <Image
+        <img
           src="/images/blur.jpeg"
-          layout='fill'
-      alt="blr"
           className="animate-pulse-slow absolute inset-auto block w-full min-h-screen object-cover"
         />
 
@@ -73,23 +136,23 @@ const mint = () => {
               <div className="relative w-full">
                 <div className="font-coiny z-10 absolute top-2 left-2 opacity-80 filter backdrop-blur-lg text-base px-4 py-2 bg-black border border-brand-purple rounded-md flex items-center justify-center text-white font-semibold">
                   <p>
-                    <span className="text-brand-pink">totalMinted</span> /{' '}
-                    maxSupply
+                    <span className="text-brand-pink">{totalMinted}</span> /{' '}
+                    {maxSupply}
                   </p>
                 </div>
 
-                <Image
+                <img
                   src="/images/13.png"
-                  width={250}
-                  height={280}
-                  alt="appe"
                   className="object-cover w-full sm:h-[280px] md:w-[250px] rounded-md"
                 />
               </div>
 
               <div className="flex flex-col items-center w-full px-4 mt-16 md:mt-0">
                 <div className="font-coiny flex items-center justify-between w-full">
-                  <button className="w-14 h-10 md:w-16 md:h-12 flex items-center justify-center text-brand-background hover:shadow-lg bg-gray-300 font-bold rounded-md">
+                  <button
+                    className="w-14 h-10 md:w-16 md:h-12 flex items-center justify-center text-brand-background hover:shadow-lg bg-gray-300 font-bold rounded-md"
+                    onClick={incrementMintAmount}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 md:h-8 md:w-8"
@@ -107,10 +170,13 @@ const mint = () => {
                   </button>
 
                   <p className="flex items-center justify-center flex-1 grow text-center font-bold text-brand-pink text-3xl md:text-4xl">
-                    mintAmount
+                    {mintAmount}
                   </p>
 
-                  <button className="w-14 h-10 md:w-16 md:h-12 flex items-center justify-center text-brand-background hover:shadow-lg bg-gray-300 font-bold rounded-md">
+                  <button
+                    className="w-14 h-10 md:w-16 md:h-12 flex items-center justify-center text-brand-background hover:shadow-lg bg-gray-300 font-bold rounded-md"
+                    onClick={decrementMintAmount}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 md:h-8 md:w-8"
@@ -129,7 +195,7 @@ const mint = () => {
                 </div>
 
                 <p className="text-sm text-pink-200 tracking-widest mt-3">
-                  Max Mint Amount:
+                  Max Mint Amount: {maxMintAmount}
                 </p>
 
                 <div className="border-t border-b py-4 mt-16 w-full">
@@ -137,13 +203,18 @@ const mint = () => {
                     <p>Total</p>
 
                     <div className="flex items-center space-x-3">
-                      <p>ETH</p> <span className="text-gray-400">+ GAS</span>
+                      <p>
+                        {Number.parseFloat(config.price * mintAmount).toFixed(
+                          2
+                        )}{' '}
+                        ETH
+                      </p>{' '}
+                      <span className="text-gray-400">+ GAS</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Mint Button && Connect Wallet Button */}
-
                 {walletAddress ? (
                   <button
                     className={` ${
@@ -151,8 +222,8 @@ const mint = () => {
                         ? 'bg-gray-900 cursor-not-allowed'
                         : 'bg-gradient-to-br from-brand-purple to-brand-pink shadow-lg hover:shadow-pink-400/50'
                     } font-coiny mt-12 w-full px-6 py-3 rounded-md text-2xl text-white  mx-4 tracking-wide uppercase`}
-                    /* disabled={paused || isMinting}
-                    onClick={isPreSale ? presaleMintHandler : publicMintHandler} */
+                    disabled={paused || isMinting}
+                    onClick={isPreSale ? presaleMintHandler : publicMintHandler}
                   >
                     {isMinting ? 'Minting...' : 'Mint'}
                   </button>
@@ -200,5 +271,3 @@ const mint = () => {
     </div>
   )
 }
-
-export default mint
