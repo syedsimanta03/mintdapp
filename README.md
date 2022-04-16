@@ -48,3 +48,5 @@ While deploying your contract with hardhat you need to use mainnet as network-na
 Client: React, TailwindCSS, web3.js
 
 Server: Alchemy, NextJS, Hardhat
+
+https://testnets.opensea.io/Sam03
