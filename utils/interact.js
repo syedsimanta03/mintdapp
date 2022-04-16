@@ -77,8 +77,6 @@ export const presaleMint = async (mintAmount) => {
     value: parseInt(
       web3.utils.toWei(String(config.price * mintAmount), 'ether')
     ).toString(16), // hex
-    gas: '30000',
-    maxPriorityFeePerGas: '1000000108',
     data: nftContract.methods
       .presaleMint(window.ethereum.selectedAddress, mintAmount, proof)
       .encodeABI(),
@@ -128,8 +126,7 @@ export const publicMint = async (mintAmount) => {
     value: parseInt(
       web3.utils.toWei(String(config.price * mintAmount), 'ether')
     ).toString(16), // hex
-    gas: '30000',
-    maxPriorityFeePerGas: '1000000108',
+    gasLimit: String(285000 * mintAmount),
     data: nftContract.methods.publicSaleMint(mintAmount).encodeABI(),
     nonce: nonce.toString(16)
   }
@@ -143,11 +140,7 @@ export const publicMint = async (mintAmount) => {
     return {
       success: true,
       status: (
-        <a
-          href={`https://rinkeby.etherscan.io/tx/${txHash}`}
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href={`https://rinkeby.etherscan.io/tx/${txHash}`} target="_blank">
           <p>✅ Check out your transaction on Etherscan:</p>
           <p>{`https://rinkeby.etherscan.io/tx/${txHash}`}</p>
         </a>
