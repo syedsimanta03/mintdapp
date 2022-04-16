@@ -1,11 +1,16 @@
 
 
-
 https://boredapemint.netlify.app
 
-# To run the dapp Locally
+![home](./react-10.jpg)
 
-nrpm run dev
+![home](./cover.jpg)
+
+
+
+#To run the dapp Locally
+
+### npm run dev
 
 Try running some of the following tasks:
 
@@ -31,10 +36,12 @@ import "hardhat/console.sol";
 contract Greeter {
     string private greeting;
 
-    constructor(string memory _greeting) {
-        ##console.log("Deploying a Greeter with greeting:", _greeting);##
-        greeting = _greeting;
-    }
+```js
+constructor(string memory _greeting) {
+    console.log("Deploying a Greeter with greeting:", _greeting);##
+    greeting = _greeting;
+}
+```
 
 Deploying on mainnet
 When you are done with making changes and your minting dapp is just as you wanted it is time to deploy on ethereum mainnet. To do that;
@@ -55,3 +62,5 @@ Client: React, TailwindCSS, web3.js
 Server: Alchemy, NextJS, Hardhat
 
 https://testnets.opensea.io/Sam03
+
+Personal Note: Auto deploy Deactivated. Eslint Disable on deploy
