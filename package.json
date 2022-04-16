@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "postbuild": "next-on-netlify"
+    "start": "next start"
   },
   "dependencies": {
     "@alch/alchemy-web3": "^1.2.4",
@@ -23,7 +21,6 @@
     "keccak256": "^1.0.6",
     "merkletreejs": "^0.2.30",
     "next": "12.1.4",
-    "next-on-netlify": "^3.0.1",
     "react": "18.0.0",
     "react-dom": "18.0.0"
   },
