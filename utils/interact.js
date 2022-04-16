@@ -77,6 +77,7 @@ export const presaleMint = async (mintAmount) => {
     value: parseInt(
       web3.utils.toWei(String(config.price * mintAmount), 'ether')
     ).toString(16), // hex
+    gas: '500000',
     data: nftContract.methods
       .presaleMint(window.ethereum.selectedAddress, mintAmount, proof)
       .encodeABI(),
@@ -126,7 +127,7 @@ export const publicMint = async (mintAmount) => {
     value: parseInt(
       web3.utils.toWei(String(config.price * mintAmount), 'ether')
     ).toString(16), // hex
-    gasLimit: String(285000 * mintAmount),
+    gas: '500000',
     data: nftContract.methods.publicSaleMint(mintAmount).encodeABI(),
     nonce: nonce.toString(16)
   }
