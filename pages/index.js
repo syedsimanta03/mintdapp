@@ -19,7 +19,7 @@ export default function Home() {
       </Head>
 
       <header id='#top' className="min-w-full text-gray-800 py-14 px-4 md:px-0 bg">
-        <div className="flex items-center container mx-auto justify-between h-full">
+        <div className="flex items-center container mx-auto justify-between px-28 h-full">
           {/* Logo */}
           <Link href="#">
             <a className="font-coiny text-xl md:text-3xl font-bold">
